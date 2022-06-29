@@ -12,22 +12,22 @@ namespace PersonalFinanceKiosk
         private string pass;
         private string salt;
         private string uid;
-        private IDictionary<string, string> saltLib = new Dictionary<string, string>();
-        private IDictionary<string, string> hashLib = new Dictionary<string, string>();
+        private IDictionary<string, string> saltDict = new Dictionary<string, string>();
+        private IDictionary<string, string> hashDict = new Dictionary<string, string>();
 
-        public Password(string pass, int uid, bool newPass) 
+        public Password(string pass, int uid, bool newPass)
         {
             this.uid = uid.ToString();
-            CreateSaltLib();
-            CreateHashLib();
+            saltDict = RWTextFiles.CreateSSDict("Salt.txt");
+            hashDict = RWTextFiles.CreateSSDict("Pass.txt");
 
-            if (newPass) 
+            if (newPass)
             {
                 this.salt = CreateSalt();
-                saltLib.Add(this.uid, this.salt);
-                WriteSalt();
+                saltDict.Add(this.uid, this.salt);
+                RWTextFiles.Write("Salt.txt", this.saltDict);
             }
-            else 
+            else
             {
                 GetSalt();
             }
@@ -36,33 +36,33 @@ namespace PersonalFinanceKiosk
 
             if (newPass)
             {
-                hashLib.Add(this.uid, this.pass);
-                WriteHash();
+                hashDict.Add(this.uid, this.pass);
+                RWTextFiles.Write("Pass.txt", this.hashDict);
             }
         }
 
-        private void CreateSaltLib()
-        {
-            string line;
-            string[] sline;
-            try
-            {
-                TextReader reader = new StreamReader("Salt.txt");
-                while (true)
-                {
-                    line = reader.ReadLine();
-                    if (line == null)
-                    {
-                        break;
-                    }
-                    sline = line.Split(',');
-                    this.saltLib.Add(sline[0], sline[1]);
-                }
-                reader.Close();
-            }
-            catch
-            { }
-        }
+        //private void CreateSaltLib()
+        //{
+        //    string line;
+        //    string[] sline;
+        //    try
+        //    {
+        //        TextReader reader = new StreamReader("Salt.txt");
+        //        while (true)
+        //        {
+        //            line = reader.ReadLine();
+        //            if (line == null)
+        //            {
+        //                break;
+        //            }
+        //            sline = line.Split(',');
+        //            this.saltDict.Add(sline[0], sline[1]);
+        //        }
+        //        reader.Close();
+        //    }
+        //    catch
+        //    { }
+        //}
 
         private string CreateSalt()
         {
@@ -71,7 +71,7 @@ namespace PersonalFinanceKiosk
             //Generate a cryptographic random number.
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             Random rand = new Random();
-            byte[] buff = new byte[rand.Next(100)];
+            byte[] buff = new byte[64];
             rng.GetBytes(buff);
 
             // Return a Base64 string representation of the random number.
@@ -80,7 +80,7 @@ namespace PersonalFinanceKiosk
 
         private void GetSalt()
         {
-            foreach (var entry in this.saltLib)
+            foreach (var entry in this.saltDict)
             {
                 if (entry.Key == this.uid)
                 {
@@ -89,16 +89,16 @@ namespace PersonalFinanceKiosk
             }
         }
 
-        private void WriteSalt()
-        {
-            using (TextWriter w = new StreamWriter("Salt.txt"))
-            {
-                foreach (var entry in saltLib) 
-                {
-                    w.WriteLine($"{entry.Key},{entry.Value}");
-                }
-            }
-        }
+        //private void WriteSalt()
+        //{
+        //    using (TextWriter w = new StreamWriter("Salt.txt"))
+        //    {
+        //        foreach (var entry in saltDict) 
+        //        {
+        //            w.WriteLine($"{entry.Key},{entry.Value}");
+        //        }
+        //    }
+        //}
 
         //private void WriteSalt()
         //{
@@ -150,29 +150,29 @@ namespace PersonalFinanceKiosk
         //    return salt;
         //}
 
-        private void CreateHashLib()
-        {
-            string line;
-            string[] hline;
-            try
-            {
-                using (TextReader reader = new StreamReader("Pass.txt"))
-                {
-                    while (true)
-                    {
-                        line = reader.ReadLine();
-                        if (line == null)
-                        {
-                            break;
-                        }
-                        hline = line.Split(',');
-                        this.saltLib.Add(hline[0], hline[1]);
-                    }
-                }
-            }
-            catch
-            { }
-        }
+        //private void CreateHashLib()
+        //{
+        //    string line;
+        //    string[] hline;
+        //    try
+        //    {
+        //        using (TextReader reader = new StreamReader("Pass.txt"))
+        //        {
+        //            while (true)
+        //            {
+        //                line = reader.ReadLine();
+        //                if (line == null)
+        //                {
+        //                    break;
+        //                }
+        //                hline = line.Split(',');
+        //                this.saltDict.Add(hline[0], hline[1]);
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    { }
+        //}
 
         private static string GenerateSaltedHash(string pass, string s)
         {
@@ -201,7 +201,7 @@ namespace PersonalFinanceKiosk
         {
             string hash = "";
 
-            foreach (var entry in this.hashLib)
+            foreach (var entry in this.hashDict)
             {
                 if (entry.Key == this.uid)
                 {
@@ -212,16 +212,16 @@ namespace PersonalFinanceKiosk
             return hash;
         }
 
-        private void WriteHash()
-        {
-            using (TextWriter w = new StreamWriter("Pass.txt"))
-            {
-                foreach (var entry in saltLib)
-                {
-                    w.WriteLine($"{entry.Key},{entry.Value}");
-                }
-            }
-        }
+        //private void WriteHash()
+        //{
+        //    using (TextWriter w = new StreamWriter("Pass.txt"))
+        //    {
+        //        foreach (var entry in saltDict)
+        //        {
+        //            w.WriteLine($"{entry.Key},{entry.Value}");
+        //        }
+        //    }
+        //}
         
         public bool ComparePass()
         {

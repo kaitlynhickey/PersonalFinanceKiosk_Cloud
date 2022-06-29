@@ -8,18 +8,19 @@ namespace PersonalFinanceKiosk
 {
     public class User
     {
-        private string username;
         private Password pass;
-        private IDictionary<string, int> usrLib = new Dictionary<string, int>();
+        private bool newUser;
+        private IDictionary<string, int> usrDict = new Dictionary<string, int>();
         public int uid;
-        public bool newUser = true;
+        public string username;
 
-        public User(string username, string password)
+        public User(string username, string password, bool newUser)
         {
             this.username = username;
-            CreateUsrLib();
+            this.newUser = newUser;
+            this.usrDict = RWTextFiles.CreateSIDict("User.txt");
 
-            foreach (var entry in this.usrLib)
+            foreach (var entry in this.usrDict)
             {
                 if (entry.Key == username)
                 {
@@ -30,51 +31,28 @@ namespace PersonalFinanceKiosk
             if (this.newUser)
             {
                 this.uid = 1;
-                foreach (var entry in this.usrLib)
+                foreach (var entry in this.usrDict)
                 {
                     if (entry.Value == this.uid)
                     {
                         this.uid++;
                     }
                 }
-                this.usrLib.Add(this.username, this.uid);
-                WriteUsr();
+                this.usrDict.Add(this.username, this.uid);
+                RWTextFiles.Write("User.txt", this.usrDict);
             }
             this.pass = new Password(password, this.uid, newUser);
         }
 
-        private async void CreateUsrLib()
+        public static bool UsernameInUse(string username) 
         {
-            string line;
-            string[] uline;
-            try
+            bool result = false;
+            IDictionary<string, int> usrDict = RWTextFiles.CreateSIDict("User.txt");
+            if (usrDict.ContainsKey(username)) 
             {
-                TextReader reader = new StreamReader("User.txt");
-                while (true)
-                {
-                    line = reader.ReadLine();
-                    if (line == null)
-                    {
-                        break;
-                    }
-                    uline = line.Split(',');
-                    this.usrLib.Add(uline[0], Int32.Parse(uline[1]));
-                }
-                reader.Close();
+                result = true;
             }
-            catch
-            { }
-        }
-
-        private async void WriteUsr()
-        {
-            using (TextWriter w = new StreamWriter("User.txt"))
-            {
-                foreach (var entry in usrLib)
-                {
-                    w.WriteLine($"{entry.Key},{entry.Value}");
-                }
-            }
+            return result;
         }
 
         public bool SignIn() 
