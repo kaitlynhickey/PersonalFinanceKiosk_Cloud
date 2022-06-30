@@ -10,6 +10,7 @@ namespace PersonalFinanceKiosk
             string username;
             string option;
             string password = "";
+            double sum = 0;
             List<Income> incomes = new List<Income>();
             List<Expense> expenses = new List<Expense>();
 
@@ -40,7 +41,7 @@ namespace PersonalFinanceKiosk
                                 if (user.SignIn())
                                 {
                                     Console.WriteLine($"\nWelcome {user.username}");
-                                    instanceState = "OptionsMenu";
+                                    instanceState = "MainMenu";
                                 }
                                 else
                                 {
@@ -107,9 +108,26 @@ namespace PersonalFinanceKiosk
                             case "E" or "e":
                                 instanceState = "Exit";
                                 break;
-                            default:
-                                break;
                         }
+                        break;
+
+                    case "DisplayBudget":
+                        Console.WriteLine("Income Items:");
+                        foreach (var i in incomes) 
+                        {
+                            Console.Write(i.Item);
+                            Console.WriteLine("\t\t\t$" + i.Amount);
+                            sum += i.Amount;
+                        }
+                        Console.WriteLine("Expense Items:");
+                        foreach (var i in expenses)
+                        {
+                            Console.Write(i.Item);
+                            Console.WriteLine("\t\t\t$" + i.Amount);
+                            sum -= i.Amount;
+                        }
+                        Console.WriteLine("Total:\t\t\t$" + sum);
+                        instanceState = "BudgetMenu";
                         break;
 
 
@@ -128,14 +146,43 @@ namespace PersonalFinanceKiosk
                         break;
 
 
-
                     case "EditIncome":
                         MenuFunct.EditIncome(incomes);
                         option = MenuFunct.GetEditOption();
                         switch (option)
                         {
                             case "1":
-                                instanceState = "EnterIncome";
+                                instanceState = "EditIncome";
+                                break;
+                            case "2":
+                                instanceState = "BudgetMenu";
+                                break;
+                        }
+                        break;
+
+
+                    case "EnterExpense":
+                        expenses.Add(MenuFunct.AskExpense(expenses));
+                        option = MenuFunct.GetExpenseOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "EnterExpense";
+                                break;
+                            case "2":
+                                instanceState = "BudgetMenu";
+                                break;
+                        }
+                        break;
+
+
+                    case "EditExpense":
+                        MenuFunct.EditExpense(expenses);
+                        option = MenuFunct.GetEditOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "EditExpense";
                                 break;
                             case "2":
                                 instanceState = "BudgetMenu";

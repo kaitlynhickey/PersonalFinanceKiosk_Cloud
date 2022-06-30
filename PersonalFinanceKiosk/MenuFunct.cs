@@ -47,7 +47,7 @@ namespace PersonalFinanceKiosk
         {
             string option;
             option = Console.ReadLine();
-            while (!(option == "1" || option == "2" || option == "E" || option == "e"))
+            while (!(option == "1" | option == "2" | option == "E" | option == "e"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
                 MenuText.MainMenu();
@@ -60,7 +60,7 @@ namespace PersonalFinanceKiosk
         {
             string option;
             option = Console.ReadLine();
-            while (!(option == "1" || option == "2" || option == "E" || option == "e"))
+            while (!(option == "1" | option == "2" | option == "E" | option == "e"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
                 MenuText.MainMenu();
@@ -72,7 +72,7 @@ namespace PersonalFinanceKiosk
         public static string GetIncomeOption()
         {
             string option = "";
-            while (!(option == "1" || option == "2"))
+            while (!(option == "1" | option == "2"))
             {
                 Console.WriteLine("To add another income item, press 1.");
                 Console.WriteLine("To return to the main budget screen, press 2.");
@@ -88,7 +88,6 @@ namespace PersonalFinanceKiosk
             Income i;
 
             Console.WriteLine("\nEnter a source of income followed by the amount.");
-            Console.Write("Enter your job title or income source: ");
             item = AskItem(incomes);
             amount = AskAmount(true);
             
@@ -101,19 +100,57 @@ namespace PersonalFinanceKiosk
 
         public static string AskItem(List<Income> incomes) 
         {
-            string item = "";
-            item = Console.ReadLine();
+            string item;
+            bool exists = true;
 
+            Console.Write("Enter your job title or income source: ");
+            item = Console.ReadLine();
+            
             while (item == "")
             {
                 Console.WriteLine("Please enter a valid job title or income source: ");
                 item = Console.ReadLine();
             }
-            while (true) 
-            { 
-                for
+
+            while (incomes.Any(a => a.Item == item) | item == "")
+            {
+                if (item == "")
+                {
+                    Console.Write("Please enter a valid job title or income source: ");
+                }
+                else 
+                {
+                    Console.WriteLine("\nThat income item already exists. Please try again.");
+                    Console.Write("Enter your job title or income source: ");
+                }
+                item = Console.ReadLine();
             }
 
+            
+            
+            //while (count != 0)
+            //{
+            //    foreach (var i in incomes)
+            //    {
+            //        // check if item with specific attribute not in list
+            //        if (i.Item == item)
+            //        {
+            //            Console.Write("Enter your job title or income source: ");
+            //            item = Console.ReadLine();
+            //            if (item == "")
+            //            {
+            //                Console.WriteLine("Please enter a valid job title or income source: ");
+            //                item = Console.ReadLine();
+            //            }
+            //            else { }
+            //            exists = true;
+            //        }
+            //    }
+            //    if (exists)
+            //    {
+            //        Console.WriteLine("\nThat income item already exists. Please try again.");
+            //    }
+            //}
             return item;
         }
 
@@ -157,7 +194,7 @@ namespace PersonalFinanceKiosk
 
             Console.Write("Was the amount entered an annual or monthly amount? If annual, press 1. If monthly, press 2: ");
             option = Console.ReadLine();
-            while (!(option == "1" || option == "2"))
+            while (!(option == "1" | option == "2"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
                 Console.Write("Was the amount entered an annual or monthly amount? If annual, press 1. If monthly, press 2: ");
@@ -180,16 +217,13 @@ namespace PersonalFinanceKiosk
 
         public static void EditIncome(List<Income> incomes)
         {
-            string samount;
-            double amount;
-            bool todecimal;
             string option;
             string item = "";
             bool exists = false;
 
             Console.Write("\nTo edit a previously existing income item, press 1. To delete a previously existing income item, press 2: ");
             option = Console.ReadLine();
-            while (!(option == "1" || option == "2"))
+            while (!(option == "1" | option == "2"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
                 Console.Write("\nTo edit a previously existing income item, press 1. To delete a previously existing income item, press 2: ");
@@ -207,21 +241,25 @@ namespace PersonalFinanceKiosk
                         {
                             if (i.Item == item)
                             {
-                                Console.Write("\nTo edit the job title or income source, press 1. To edit the amount only, press 2: ");
+                                Console.Write("\nTo edit the job title or income source, press 1. To edit the amount, press 2. To edit both, press 3: ");
                                 option = Console.ReadLine();
-                                while (!(option == "1" || option == "2"))
+                                while (!(option == "1" | option == "2" | option == "3"))
                                 {
                                     Console.WriteLine("Please enter one of the following valid options.\n");
-                                    Console.Write("\nTo edit the job title or income source, press 1. To edit the amount only, press 2: ");
+                                    Console.Write("\nTo edit the job title or income source, press 1. To edit the amount, press 2. To edit both, press 3: ");
                                     option = Console.ReadLine();
                                 }
                                 if (option == "1") 
                                 {
                                     i.Item = AskItem(incomes);
+                                }
+                                else if (option == "2") 
+                                {
                                     i.Amount = AskAmount(true);
                                 }
                                 else 
                                 {
+                                    i.Item = AskItem(incomes);
                                     i.Amount = AskAmount(true);
                                 }
                                 exists = true;
@@ -264,7 +302,7 @@ namespace PersonalFinanceKiosk
         public static string GetEditOption()
         {
             string option = "";
-            while (!(option == "1" || option == "2"))
+            while (!(option == "1" | option == "2"))
             {
                 Console.WriteLine("To edit another item, press 1.");
                 Console.WriteLine("To return to the main budget screen, press 2.");
@@ -273,7 +311,7 @@ namespace PersonalFinanceKiosk
             return option;
         }
 
-        public static Income AskExpense(List<Expense> expenses)
+        public static Expense AskExpense(List<Expense> expenses)
         {
             string item;
             double amount;
@@ -286,9 +324,105 @@ namespace PersonalFinanceKiosk
 
 
             i = new Expense(item, amount);
-            Console.WriteLine($"You have created an expese item of the following:\nSource: {i.Item}\nAmount: ${i.Amount}");
+            Console.WriteLine($"You have created an expense item of the following:\nExpense: {i.Item}\nAmount: ${i.Amount}");
 
             return i;
+        }
+
+        public static string GetExpenseOption()
+        {
+            string option = "";
+            while (!(option == "1" | option == "2"))
+            {
+                Console.WriteLine("To add another expense item, press 1.");
+                Console.WriteLine("To return to the main budget screen, press 2.");
+                option = Console.ReadLine();
+            }
+            return option;
+        }
+
+        public static void EditExpense(List<Expense> expenses)
+        {
+            string option;
+            string item = "";
+            bool exists = false;
+
+            Console.Write("\nTo edit a previously existing expense item, press 1. To delete a previously existing expense item, press 2: ");
+            option = Console.ReadLine();
+            while (!(option == "1" | option == "2"))
+            {
+                Console.WriteLine("Please enter one of the following valid options.\n");
+                Console.Write("\nTo edit a previously existing expense item, press 1. To delete a previously existing expense item, press 2: ");
+                option = Console.ReadLine();
+            }
+            if (option == "1")
+            {
+                while (!exists)
+                {
+                    Console.WriteLine("Please enter an existing expense item or press Q to return to the Budget Menu: ");
+                    item = Console.ReadLine();
+                    if (item != "Q" | item != "Q")
+                    {
+                        foreach (var i in expenses)
+                        {
+                            if (i.Item == item)
+                            {
+                                Console.Write("\nTo edit the expense title, press 1. To edit the amount, press 2. To edit both, press 3: ");
+                                option = Console.ReadLine();
+                                while (!(option == "1" | option == "2" | option == "3"))
+                                {
+                                    Console.WriteLine("Please enter one of the following valid options.\n");
+                                    Console.Write("\nTo edit the expense title, press 1. To edit the amount, press 2. To edit both, press 3: ");
+                                    option = Console.ReadLine();
+                                }
+                                if (option == "1")
+                                {
+                                    i.Item = AskItem(expenses);
+                                }
+                                else if (option == "2")
+                                {
+                                    i.Amount = AskAmount(false);
+                                }
+                                else
+                                {
+                                    i.Item = AskItem(expenses);
+                                    i.Amount = AskAmount(false);
+                                }
+                                exists = true;
+                            }
+                        }
+                        if (!exists)
+                        {
+                            Console.WriteLine("\nThat expense item does not exist. Please try again.");
+                        }
+                    }
+                    else { break; }
+                }
+            }
+            else
+            {
+                while (!exists)
+                {
+                    Console.WriteLine("Enter the name of the previously existing expense item to delete or press Q to return to the Budget Menu: ");
+                    item = Console.ReadLine();
+                    if (item != "Q" | item != "Q")
+                    {
+                        foreach (var i in expenses)
+                        {
+                            if (i.Item == item)
+                            {
+                                expenses.Remove(i);
+                                exists = true;
+                            }
+                        }
+                        if (!exists)
+                        {
+                            Console.WriteLine("\nThat expense item does not exist. Please try again.");
+                        }
+                    }
+                    else { break; }
+                }
+            }
         }
     }
 }
