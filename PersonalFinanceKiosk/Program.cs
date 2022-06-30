@@ -117,17 +117,17 @@ namespace PersonalFinanceKiosk
                         foreach (var i in incomes) 
                         {
                             Console.Write(i.Item);
-                            Console.WriteLine("\t\t\t$" + i.Amount);
+                            Console.WriteLine("\t\t\t\t\t$" + i.Amount);
                             sum += i.Amount;
                         }
                         Console.WriteLine("\nExpense Items:");
                         foreach (var i in expenses)
                         {
                             Console.Write(i.Item);
-                            Console.WriteLine("\t\t\t- $" + i.Amount);
+                            Console.WriteLine("\t\t\t\t\t- $" + i.Amount);
                             sum -= i.Amount;
                         }
-                        Console.WriteLine("\nTotal:\t\t\t$" + sum + "\n");
+                        Console.WriteLine("\nTotal:\t\t\t\t\t$" + sum + "\n");
                         instanceState = "BudgetMenu";
                         break;
 

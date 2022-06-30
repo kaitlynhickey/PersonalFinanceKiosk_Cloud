@@ -74,7 +74,7 @@ namespace PersonalFinanceKiosk
             string option = "";
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("To add another income item, press 1.");
+                Console.WriteLine("\nTo add another income item, press 1.");
                 Console.WriteLine("To return to the main budget screen, press 2.");
                 option = Console.ReadLine();
             }
