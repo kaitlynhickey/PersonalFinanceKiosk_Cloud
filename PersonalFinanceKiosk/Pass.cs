@@ -41,29 +41,6 @@ namespace PersonalFinanceKiosk
             }
         }
 
-        //private void CreateSaltLib()
-        //{
-        //    string line;
-        //    string[] sline;
-        //    try
-        //    {
-        //        TextReader reader = new StreamReader("Salt.txt");
-        //        while (true)
-        //        {
-        //            line = reader.ReadLine();
-        //            if (line == null)
-        //            {
-        //                break;
-        //            }
-        //            sline = line.Split(',');
-        //            this.saltDict.Add(sline[0], sline[1]);
-        //        }
-        //        reader.Close();
-        //    }
-        //    catch
-        //    { }
-        //}
-
         private string CreateSalt()
         {
  
@@ -88,91 +65,6 @@ namespace PersonalFinanceKiosk
                 }
             }
         }
-
-        //private void WriteSalt()
-        //{
-        //    using (TextWriter w = new StreamWriter("Salt.txt"))
-        //    {
-        //        foreach (var entry in saltDict) 
-        //        {
-        //            w.WriteLine($"{entry.Key},{entry.Value}");
-        //        }
-        //    }
-        //}
-
-        //private void WriteSalt()
-        //{
-        //    try
-        //    {
-        //        using (StreamWriter w = File.AppendText("Salt.txt"))
-        //        {
-        //            w.WriteLine($"{this.uid},{this.salt}");
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        using (TextWriter w = new StreamWriter("Salt.txt"))
-        //        {
-        //            w.WriteLine($"{this.uid},{this.salt}");
-        //        }
-        //    }
-        //}
-
-        //private string GetSalt(string uid)
-        //{
-        //    string line;
-        //    string[] sline;
-        //    string salt = "unassigned";
-
-        //    try
-        //    {
-        //        TextReader reader = new StreamReader("Salt.txt");
-        //        while (true)
-        //        {
-        //            line = reader.ReadLine();
-        //            if (line == null)
-        //            {
-        //                break;
-        //            }
-        //            sline = line.Split(',');
-        //            if (sline[0] == uid) 
-        //            { 
-        //                salt =  sline[1];
-        //            }
-        //        }
-        //        reader.Close();
-        //    }
-        //    catch
-        //    {
-        //        salt = "Error with text file";
-        //    }
-
-        //    return salt;
-        //}
-
-        //private void CreateHashLib()
-        //{
-        //    string line;
-        //    string[] hline;
-        //    try
-        //    {
-        //        using (TextReader reader = new StreamReader("Pass.txt"))
-        //        {
-        //            while (true)
-        //            {
-        //                line = reader.ReadLine();
-        //                if (line == null)
-        //                {
-        //                    break;
-        //                }
-        //                hline = line.Split(',');
-        //                this.saltDict.Add(hline[0], hline[1]);
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    { }
-        //}
 
         private static string GenerateSaltedHash(string pass, string s)
         {
@@ -211,17 +103,6 @@ namespace PersonalFinanceKiosk
 
             return hash;
         }
-
-        //private void WriteHash()
-        //{
-        //    using (TextWriter w = new StreamWriter("Pass.txt"))
-        //    {
-        //        foreach (var entry in saltDict)
-        //        {
-        //            w.WriteLine($"{entry.Key},{entry.Value}");
-        //        }
-        //    }
-        //}
         
         public bool ComparePass()
         {

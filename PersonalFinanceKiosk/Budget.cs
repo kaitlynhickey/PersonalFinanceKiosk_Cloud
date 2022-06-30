@@ -6,45 +6,41 @@ using System.Threading.Tasks;
 
 namespace PersonalFinanceKiosk
 {
-    public class Income
-    {
-        private string jobTitle;
-        private double salary;
-
-        public Income(string job, double salary) 
-        { 
-            this.jobTitle = job;
-            this.salary = Math.Round(salary,2);
-        }
-        public string GetJobTitle() 
-        {
-            return this.jobTitle;
-        }
-
-        public double GetSalary()
-        {
-            return this.salary;
-        }
-    }
-
-    public class Expense
+    public abstract class Budget 
     {
         private string item;
         private double amount;
 
-        public Expense(string item, double amount)
-        {
+        public Budget(string item, double amount) 
+        { 
             this.item = item;
-            this.amount = Math.Round(amount, 2);
-        }
-        public string GetItem()
-        {
-            return this.item;
+            this.amount = amount;
         }
 
-        public double GetAmount()
+        public string Item
         {
-            return this.amount;
+            get { return this.item; }
+            set { this.item = value; }
+        }
+
+        public double Amount
+        {
+            get { return this.amount; }
+            set { this.amount = value; }
+        }
+    }
+
+    public class Income : Budget
+    {
+        public Income(string item, double amount) : base(item, amount) 
+        { 
+        }
+    }
+
+    public class Expense : Budget
+    {
+        public Expense(string item, double amount) : base(item, amount)
+        {
         }
     }
 }

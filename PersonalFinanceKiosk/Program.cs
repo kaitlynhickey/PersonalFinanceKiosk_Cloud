@@ -13,15 +13,16 @@ namespace PersonalFinanceKiosk
             List<Income> incomes = new List<Income>();
             List<Expense> expenses = new List<Expense>();
 
-            Menu.WelcomeMenu();
+            MenuText.WelcomeMenu();
 
             while (instanceState != "Exit")
             {
                 switch (instanceState)
                 {
+
                     case "LogInMenu":
-                        Menu.LogInMenu();
-                        username = Menu.GetUsername();
+                        MenuText.LogInMenu();
+                        username = MenuFunct.GetUsername();
                         switch (username)
                         {
                             case "":
@@ -34,7 +35,7 @@ namespace PersonalFinanceKiosk
                                 instanceState = "Exit";
                                 break;
                             default:
-                                password = Menu.GetPassword();
+                                password = MenuFunct.GetPassword();
                                 user = new User(username, password, false);
                                 if (user.SignIn())
                                 {
@@ -43,31 +44,33 @@ namespace PersonalFinanceKiosk
                                 }
                                 else
                                 {
-                                    Menu.InvalidSignIn();
+                                    MenuText.InvalidSignIn();
                                 }
                                 break;
                         }
                         break;
+
+
                     case "NewUser":
-                        Menu.NewUserMenu();
-                        username = Menu.SetUsername();
-                        password = Menu.GetPassword();
+                        MenuText.NewUserMenu();
+                        username = MenuFunct.SetUsername();
+                        password = MenuFunct.GetPassword();
                         user = new User(username, password, true);
-                        Menu.NewUserCreated();
+                        MenuText.NewUserCreated();
                         instanceState = "LogInMenu";
                         break;
-                    case "OptionsMenu":
-                        Menu.OptionsMenu();
-                        option = Menu.GetOption();
+
+
+                    case "MainMenu":
+                        MenuText.MainMenu();
+                        option = MenuFunct.GetMenuOption();
                         switch (option)
                         {
                             case "1":
-                                Console.WriteLine("\nBudget Functionality:");
-                                instanceState = "Exit";
+                                instanceState = "BudgetMenu";
                                 break;
                             case "2":
-                                Console.WriteLine("\nRetirement Planning Functionality:");
-                                instanceState = "Exit";
+                                instanceState = "RetirementMenu";
                                 break;
                             case "E" or "e":
                                 instanceState = "Exit";
@@ -76,11 +79,78 @@ namespace PersonalFinanceKiosk
                                 break;
                         }
                         break;
-                    default:
+
+
+                    case "BudgetMenu":
+                        MenuText.BudgetMenu();
+                        option = MenuFunct.GetBudgetOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "DisplayBudget";
+                                break;
+                            case "2":
+                                instanceState = "EnterIncome";
+                                break;
+                            case "3":
+                                instanceState = "EditIncome";
+                                break;
+                            case "4":
+                                instanceState = "EnterExpense";
+                                break;
+                            case "5":
+                                instanceState = "ExitExpense";
+                                break;
+                            case "M" or "m":
+                                instanceState = "MainMenu";
+                                break;
+                            case "E" or "e":
+                                instanceState = "Exit";
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+
+
+                    case "EnterIncome":
+                        incomes.Add(MenuFunct.AskIncome(incomes));
+                        option = MenuFunct.GetIncomeOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "EnterIncome";
+                                break;
+                            case "2":
+                                instanceState = "BudgetMenu";
+                                break;
+                        }
+                        break;
+
+
+
+                    case "EditIncome":
+                        MenuFunct.EditIncome(incomes);
+                        option = MenuFunct.GetEditOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "EnterIncome";
+                                break;
+                            case "2":
+                                instanceState = "BudgetMenu";
+                                break;
+                        }
+                        break;
+
+
+                    case "RetirementMenu":
+                        Console.WriteLine("\nRetirement Planning Functionality:");
+                        instanceState = "Exit";
                         break;
                 }
             }
-            Menu.ExitMenu();
+            MenuText.ExitMenu();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PersonalFinanceKiosk
 {
-    public class Menu
+    public class MenuText
     {
         public static void WelcomeMenu()
         {
@@ -38,41 +38,6 @@ namespace PersonalFinanceKiosk
             Console.WriteLine("To exit the application, enter E");
         }
 
-        public static string SetUsername()
-        {
-            string username;
-            Console.Write("Username: ");
-            username = Console.ReadLine();
-            while (User.UsernameInUse(username))
-            {
-                Console.WriteLine("That username already exists. Please enter a unique username.");
-                Console.WriteLine("Username: ");
-                username = Console.ReadLine();
-            }
-            return username;
-        }
-
-        public static string GetUsername()
-        {
-            string username;
-            Console.Write("Username (or 5 for new user, E to quit): ");
-            username = Console.ReadLine();
-            return username;
-        }
-
-        public static string GetPassword()
-        {
-            string password;
-            Console.Write("Password: ");
-            password = Console.ReadLine();
-            while (password == "")
-            {
-                Console.WriteLine("Please enter a password: ");
-                password = Console.ReadLine();
-            }
-            return password;
-        }
-
         public static void InvalidSignIn()
         {
             Console.WriteLine("The username or password provided was invalid. Please try again.");
@@ -89,24 +54,24 @@ namespace PersonalFinanceKiosk
                               "\nPlease use your newly created username and password to sign in.");
         }
 
-        public static void OptionsMenu()
+        public static void MainMenu()
         {
             Console.WriteLine("\nPlease select from one of the following kiosk options.");
             Console.WriteLine("To build a budget, press 1");
             Console.WriteLine("To build a retirement plan, press 2");
             Console.WriteLine("To exit the application, enter E");
         }
-        public static string GetOption()
+        
+        public static void BudgetMenu()
         {
-            string option;
-            option = Console.ReadLine();
-            while (!(option == "1" || option == "2" || option == "E" || option == "e")) 
-            {
-                Console.WriteLine("Please enter one of the following valid options.\n");
-                OptionsMenu();
-                option = Console.ReadLine();
-            }
-            return option;
+            Console.WriteLine("\nCreate a monthly budget by entering income and expenses.");
+            Console.WriteLine("To display your current budget, press 1");
+            Console.WriteLine("To enter an income item, press 2");
+            Console.WriteLine("To edit or delete an existing income item, press 3");
+            Console.WriteLine("To enter an expense item, press 4");
+            Console.WriteLine("To edit or delete an existing income item, press 5");
+            Console.WriteLine("To return to the main menu, enter M");
+            Console.WriteLine("To exit the application, enter E");
         }
 
         public static void ExitMenu()
