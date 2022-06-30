@@ -60,10 +60,10 @@ namespace PersonalFinanceKiosk
         {
             string option;
             option = Console.ReadLine();
-            while (!(option == "1" | option == "2" | option == "E" | option == "e"))
+            while (!(option == "1" | option == "2" | option == "3" | option == "4" | option == "5" | option == "M" | option == "m" |option == "E" | option == "e"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
-                MenuText.MainMenu();
+                MenuText.BudgetMenu();
                 option = Console.ReadLine();
             }
             return option;
@@ -93,7 +93,7 @@ namespace PersonalFinanceKiosk
             
 
             i = new Income(item, amount);
-            Console.WriteLine($"You have created an income item of the following:\nSource: {i.Item}\nAmount: ${i.Amount}");
+            Console.WriteLine($"\nAn income item of the following has been created:\nSource: {i.Item}\nAmount: ${i.Amount}");
 
             return i;
         }
@@ -105,12 +105,6 @@ namespace PersonalFinanceKiosk
 
             Console.Write("Enter your job title or income source: ");
             item = Console.ReadLine();
-            
-            while (item == "")
-            {
-                Console.WriteLine("Please enter a valid job title or income source: ");
-                item = Console.ReadLine();
-            }
 
             while (incomes.Any(a => a.Item == item) | item == "")
             {
@@ -120,48 +114,33 @@ namespace PersonalFinanceKiosk
                 }
                 else 
                 {
-                    Console.WriteLine("\nThat income item already exists. Please try again.");
+                    Console.WriteLine("\nThat income item already exists. Please try again.\n");
                     Console.Write("Enter your job title or income source: ");
                 }
                 item = Console.ReadLine();
             }
-
-            
-            
-            //while (count != 0)
-            //{
-            //    foreach (var i in incomes)
-            //    {
-            //        // check if item with specific attribute not in list
-            //        if (i.Item == item)
-            //        {
-            //            Console.Write("Enter your job title or income source: ");
-            //            item = Console.ReadLine();
-            //            if (item == "")
-            //            {
-            //                Console.WriteLine("Please enter a valid job title or income source: ");
-            //                item = Console.ReadLine();
-            //            }
-            //            else { }
-            //            exists = true;
-            //        }
-            //    }
-            //    if (exists)
-            //    {
-            //        Console.WriteLine("\nThat income item already exists. Please try again.");
-            //    }
-            //}
             return item;
         }
 
         public static string AskItem(List<Expense> expenses)
         {
             string item = "";
+            bool exists = true;
+
+            Console.Write("Enter your expense title: ");
             item = Console.ReadLine();
 
-            while (item == "")
+            while (expenses.Any(a => a.Item == item) | item == "")
             {
-                Console.WriteLine("Please enter a valid expense title: ");
+                if (item == "")
+                {
+                    Console.Write("Please enter a valid job title or income source: ");
+                }
+                else
+                {
+                    Console.WriteLine("\nThat income item already exists. Please try again.\n");
+                    Console.Write("Enter your job title or income source: ");
+                }
                 item = Console.ReadLine();
             }
 
@@ -177,22 +156,22 @@ namespace PersonalFinanceKiosk
 
             if (income)
             {
-                Console.Write("Enter the related amount of income: ");
+                Console.Write("Enter the amount of income: ");
             }
             else
             {
-                Console.Write("Enter the related expense amount: ");
+                Console.Write("Enter the expense amount: ");
             }
             samount = Console.ReadLine();
             todecimal = Double.TryParse(samount, out amount);
             while (!todecimal)
             {
-                Console.WriteLine("Please enter a valid number: ");
+                Console.Write("Please enter a valid number: ");
                 samount = Console.ReadLine();
                 todecimal = Double.TryParse(samount, out amount);
             }
 
-            Console.Write("Was the amount entered an annual or monthly amount? If annual, press 1. If monthly, press 2: ");
+            Console.Write("\nWas the amount entered an annual or monthly amount? If annual, press 1. If monthly, press 2: ");
             option = Console.ReadLine();
             while (!(option == "1" | option == "2"))
             {
@@ -202,16 +181,33 @@ namespace PersonalFinanceKiosk
             }
             if (option == "1")
             {
-                amount = amount / 12;
+                amount = Math.Round(amount / 12, 2);
                 if (income)
                 {
-                    Console.WriteLine($"The income amount has been adjusted to be a monthly amount of ${amount}.");
+                    Console.WriteLine($"The income amount has been adjusted accordingly to be a monthly amount of ${amount}.");
                 }
                 else
                 {
-                    Console.WriteLine($"The expense amount has been adjusted to be a monthly amount of ${amount}.");
+                    Console.WriteLine($"The expense amount has been adjusted accordingly to be a monthly amount of ${amount}.");
                 }
             }
+            if (income)
+            {
+                Console.Write("\nWould you like your income amount entered to reflect estimated withheld taxes of 30%? To apply, press 1. Otherwise, press 2: ");
+                option = Console.ReadLine();
+                while (!(option == "1" | option == "2"))
+                {
+                    Console.WriteLine("Please enter one of the following valid options.\n");
+                    Console.Write("\nWould you like your income to reflect estimated withheld taxes of 30%?\nTo apply, press 1. Otherwise, press 2: ");
+                    option = Console.ReadLine();
+                }
+                if (option == "1")
+                {
+                    amount = Math.Round(amount * .7, 2);
+                    Console.WriteLine($"The income has been adjusted accordingly to reflect an after-tax monthly amount of ${amount}.");
+                }
+            }
+            
             return amount;
         }
 
@@ -233,9 +229,9 @@ namespace PersonalFinanceKiosk
             {
                 while (!exists)
                 {
-                    Console.WriteLine("Please enter an existing income source or press Q to return to the Budget Menu: ");
+                    Console.Write("Please enter an existing income source or press Q to  to back out: ");
                     item = Console.ReadLine();
-                    if (item != "Q" | item != "Q")
+                    if (item != "Q" && item != "q")
                     {
                         foreach (var i in incomes)
                         {
@@ -262,12 +258,13 @@ namespace PersonalFinanceKiosk
                                     i.Item = AskItem(incomes);
                                     i.Amount = AskAmount(true);
                                 }
+                                Console.WriteLine($"\nThe edited income item now shows as follows:\nSource: {i.Item}\nAmount: ${i.Amount}\n");
                                 exists = true;
                             }
                         }
                         if (!exists) 
                         {
-                            Console.WriteLine("\nThat income source does not exist. Please try again.");
+                            Console.WriteLine("\nThat income source does not exist. Please try again.\n");
                         }
                     }
                     else { break; }
@@ -277,21 +274,23 @@ namespace PersonalFinanceKiosk
             {
                 while (!exists)
                 {
-                    Console.WriteLine("Enter the name of the previously existing income item to delete or press Q to return to the Budget Menu: ");
+                    Console.Write("Enter the name of the previously existing income item to delete\nor press Q to back out: ");
                     item = Console.ReadLine();
-                    if (item != "Q" | item != "Q")
+                    if (item != "Q" && item != "q")
                     {
                         foreach (var i in incomes)
                         {
                             if (i.Item == item)
                             {
                                 incomes.Remove(i);
+                                Console.WriteLine($"\nThe following income item has been removed:\nSource: {i.Item}\nAmount: ${i.Amount}");
                                 exists = true;
+                                break;
                             }
                         }
                         if (!exists)
                         {
-                            Console.WriteLine("\nThat income source does not exist. Please try again.");
+                            Console.WriteLine("\nThat income source does not exist. Please try again.\n");
                         }
                     }
                     else { break; }
@@ -304,7 +303,7 @@ namespace PersonalFinanceKiosk
             string option = "";
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("To edit another item, press 1.");
+                Console.WriteLine("\nTo edit another item, press 1.");
                 Console.WriteLine("To return to the main budget screen, press 2.");
                 option = Console.ReadLine();
             }
@@ -318,13 +317,12 @@ namespace PersonalFinanceKiosk
             Expense i;
 
             Console.WriteLine("\nEnter an expense item followed by the amount.");
-            Console.Write("Enter your expense item: ");
             item = AskItem(expenses);
             amount = AskAmount(false);
 
 
             i = new Expense(item, amount);
-            Console.WriteLine($"You have created an expense item of the following:\nExpense: {i.Item}\nAmount: ${i.Amount}");
+            Console.WriteLine($"\nYou have created an expense item of the following:\nExpense: {i.Item}\nAmount: ${i.Amount}");
 
             return i;
         }
@@ -334,7 +332,7 @@ namespace PersonalFinanceKiosk
             string option = "";
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("To add another expense item, press 1.");
+                Console.WriteLine("\nTo add another expense item, press 1.");
                 Console.WriteLine("To return to the main budget screen, press 2.");
                 option = Console.ReadLine();
             }
@@ -351,7 +349,7 @@ namespace PersonalFinanceKiosk
             option = Console.ReadLine();
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("Please enter one of the following valid options.\n");
+                Console.WriteLine("\nPlease enter one of the following valid options.");
                 Console.Write("\nTo edit a previously existing expense item, press 1. To delete a previously existing expense item, press 2: ");
                 option = Console.ReadLine();
             }
@@ -359,9 +357,9 @@ namespace PersonalFinanceKiosk
             {
                 while (!exists)
                 {
-                    Console.WriteLine("Please enter an existing expense item or press Q to return to the Budget Menu: ");
+                    Console.Write("Please enter an existing expense item or press Q to back out: ");
                     item = Console.ReadLine();
-                    if (item != "Q" | item != "Q")
+                    if (item != "Q" && item != "q")
                     {
                         foreach (var i in expenses)
                         {
@@ -388,6 +386,7 @@ namespace PersonalFinanceKiosk
                                     i.Item = AskItem(expenses);
                                     i.Amount = AskAmount(false);
                                 }
+                                Console.WriteLine($"\nThe edited expense now shows as follows:\nSource: {i.Item}\nAmount: ${i.Amount}\n");
                                 exists = true;
                             }
                         }
@@ -403,16 +402,18 @@ namespace PersonalFinanceKiosk
             {
                 while (!exists)
                 {
-                    Console.WriteLine("Enter the name of the previously existing expense item to delete or press Q to return to the Budget Menu: ");
+                    Console.Write("Enter the name of the previously existing expense item to delete or press Q to back out: ");
                     item = Console.ReadLine();
-                    if (item != "Q" | item != "Q")
+                    if (item != "Q" && item != "q")
                     {
                         foreach (var i in expenses)
                         {
                             if (i.Item == item)
                             {
                                 expenses.Remove(i);
+                                Console.WriteLine($"\nThe following expense has been removed:\nSource: {i.Item}\nAmount: ${i.Amount}\n");
                                 exists = true;
+                                break;
                             }
                         }
                         if (!exists)

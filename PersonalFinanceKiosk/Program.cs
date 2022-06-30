@@ -100,7 +100,7 @@ namespace PersonalFinanceKiosk
                                 instanceState = "EnterExpense";
                                 break;
                             case "5":
-                                instanceState = "ExitExpense";
+                                instanceState = "EditExpense";
                                 break;
                             case "M" or "m":
                                 instanceState = "MainMenu";
@@ -112,6 +112,7 @@ namespace PersonalFinanceKiosk
                         break;
 
                     case "DisplayBudget":
+                        Console.WriteLine("\n\n");
                         Console.WriteLine("Income Items:");
                         foreach (var i in incomes) 
                         {
@@ -119,14 +120,14 @@ namespace PersonalFinanceKiosk
                             Console.WriteLine("\t\t\t$" + i.Amount);
                             sum += i.Amount;
                         }
-                        Console.WriteLine("Expense Items:");
+                        Console.WriteLine("\nExpense Items:");
                         foreach (var i in expenses)
                         {
                             Console.Write(i.Item);
-                            Console.WriteLine("\t\t\t$" + i.Amount);
+                            Console.WriteLine("\t\t\t- $" + i.Amount);
                             sum -= i.Amount;
                         }
-                        Console.WriteLine("Total:\t\t\t$" + sum);
+                        Console.WriteLine("\nTotal:\t\t\t$" + sum + "\n");
                         instanceState = "BudgetMenu";
                         break;
 
@@ -192,8 +193,8 @@ namespace PersonalFinanceKiosk
 
 
                     case "RetirementMenu":
-                        Console.WriteLine("\nRetirement Planning Functionality:");
-                        instanceState = "Exit";
+                        Console.WriteLine("\nRetirement Planning Functionality Coming Soon");
+                        instanceState = "MainMenu";
                         break;
                 }
             }
