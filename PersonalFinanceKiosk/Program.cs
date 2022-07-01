@@ -193,9 +193,49 @@ namespace PersonalFinanceKiosk
 
 
                     case "RetirementMenu":
-                        Console.WriteLine("\nRetirement Planning Functionality Coming Soon");
-                        instanceState = "MainMenu";
+                        MenuText.RetirementMenu();
+                        option = MenuFunct.GetRetirementOption();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "DisplayRetirement";
+                                break;
+                            case "2":
+                                instanceState = "RetirementWarning";
+                                break;
+                            case "3":
+                                instanceState = "EditIncome";
+                                break;
+                            case "M" or "m":
+                                instanceState = "MainMenu";
+                                break;
+                            case "E" or "e":
+                                instanceState = "Exit";
+                                break;
+                        }
                         break;
+
+
+                    case "DisplayRetirement":
+                        Console.WriteLine("Display Retirement Plan");
+                        instanceState = "RetirementMenu";
+                        break;
+
+
+                    case "RetirementWarning":
+                        option = MenuFunct.GetRetirementWarning();
+                        switch (option)
+                        {
+                            case "1":
+                                instanceState = "CreateRetirement";
+                                break;
+                            case "2":
+                                instanceState = "RetirementMenu";
+                                break;
+                        }
+                        break;
+
+                    
                 }
             }
             MenuText.ExitMenu();

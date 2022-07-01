@@ -425,5 +425,30 @@ namespace PersonalFinanceKiosk
                 }
             }
         }
+
+        public static string GetRetirementOption()
+        {
+            string option;
+            option = Console.ReadLine();
+            while (!(option == "1" | option == "2" | option == "3" | option == "M" | option == "m" | option == "E" | option == "e"))
+            {
+                Console.WriteLine("Please enter one of the following valid options.\n");
+                MenuText.RetirementMenu();
+                option = Console.ReadLine();
+            }
+            return option;
+        }
+
+        public static string GetRetirementWarning()
+        {
+            string option = "";
+            while (!(option == "1" | option == "2"))
+            {
+                Console.WriteLine("\nTo add another income item, press 1.");
+                Console.WriteLine("To return to the main budget screen, press 2.");
+                option = Console.ReadLine();
+            }
+            return option;
+        }
     }
 }
