@@ -23,7 +23,7 @@ namespace PersonalFinanceKiosk
 
             if (newPass)
             {
-                this.salt = CreateSalt();
+                this.salt = CreateSalt(pass);
                 saltDict.Add(this.uid, this.salt);
                 RWTextFiles.Write("Salt.txt", this.saltDict);
             }
@@ -41,18 +41,27 @@ namespace PersonalFinanceKiosk
             }
         }
 
-        private string CreateSalt()
-        {
+        //private string CreateSalt()
+        //{
  
-            // Below code copied from https://stackoverflow.com/questions/2138429/hash-and-salt-passwords-in-c-sharp and modified to meet personal program needs.
-            //Generate a cryptographic random number.
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            Random rand = new Random();
-            byte[] buff = new byte[64];
-            rng.GetBytes(buff);
+        //    // Below code copied from https://stackoverflow.com/questions/2138429/hash-and-salt-passwords-in-c-sharp and modified to meet personal program needs.
+        //    //Generate a cryptographic random number.
+        //    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+        //    Random rand = new Random();
+        //    byte[] buff = new byte[64];
+        //    rng.GetBytes(buff);
 
-            // Return a Base64 string representation of the random number.
-            return Convert.ToBase64String(buff);
+        //    // Return a Base64 string representation of the random number.
+        //    return Convert.ToBase64String(buff);
+        //}
+
+        private string CreateSalt(string pass)
+        {
+            // Credit for the following code goes to Chongwei Ma: https://github.com/12TheHangedMan/HashAddSaltSHA512
+            Byte[] saltByte = new Byte[Math.Max(64, pass.Length)];
+            var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(saltByte);
+            return Convert.ToBase64String(saltByte);
         }
 
         private void GetSalt()
@@ -66,27 +75,39 @@ namespace PersonalFinanceKiosk
             }
         }
 
-        private static string GenerateSaltedHash(string pass, string s)
+        //private static string GenerateSaltedHash(string pass, string s)
+        //{
+        //    byte[] plainText = Encoding.UTF8.GetBytes(pass);
+        //    byte[] salt = Encoding.UTF8.GetBytes(s);
+
+        //    // Below code copied from https://stackoverflow.com/questions/2138429/hash-and-salt-passwords-in-c-sharp and modified to meet personal program needs.
+        //    HashAlgorithm algorithm = new SHA256Managed();
+
+        //    byte[] plainTextWithSaltBytes =
+        //      new byte[plainText.Length + salt.Length];
+
+        //    for (int i = 0; i < plainText.Length; i++)
+        //    {
+        //        plainTextWithSaltBytes[i] = plainText[i];
+        //    }
+        //    for (int i = 0; i < salt.Length; i++)
+        //    {
+        //        plainTextWithSaltBytes[plainText.Length + i] = salt[i];
+        //    }
+
+        //    return Convert.ToBase64String(algorithm.ComputeHash(plainTextWithSaltBytes));
+        //}
+
+    
+        private static string GenerateSaltedHash(string targetString, string salt)
         {
-            byte[] plainText = Encoding.UTF8.GetBytes(pass);
-            byte[] salt = Encoding.UTF8.GetBytes(s);
-
-            // Below code copied from https://stackoverflow.com/questions/2138429/hash-and-salt-passwords-in-c-sharp and modified to meet personal program needs.
-            HashAlgorithm algorithm = new SHA256Managed();
-
-            byte[] plainTextWithSaltBytes =
-              new byte[plainText.Length + salt.Length];
-
-            for (int i = 0; i < plainText.Length; i++)
+            // Credit for the following code goes to Chongwei Ma: https://github.com/12TheHangedMan/HashAddSaltSHA512
+            using (SHA512 shaEncry = new SHA512Managed())
             {
-                plainTextWithSaltBytes[i] = plainText[i];
+                byte[] targetBytes = Encoding.UTF8.GetBytes(salt + targetString);
+                byte[] hashBytes = shaEncry.ComputeHash(targetBytes);
+                return Convert.ToBase64String(hashBytes);
             }
-            for (int i = 0; i < salt.Length; i++)
-            {
-                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
-            }
-
-            return Convert.ToBase64String(algorithm.ComputeHash(plainTextWithSaltBytes));
         }
 
         private string GetHash()
