@@ -430,7 +430,7 @@ namespace PersonalFinanceKiosk
         {
             string option;
             option = Console.ReadLine();
-            while (!(option == "1" | option == "2" | option == "3" | option == "M" | option == "m" | option == "E" | option == "e"))
+            while (!(option == "1" | option == "2" | option == "M" | option == "m" | option == "E" | option == "e"))
             {
                 Console.WriteLine("Please enter one of the following valid options.\n");
                 MenuText.RetirementMenu();
@@ -444,12 +444,109 @@ namespace PersonalFinanceKiosk
             string option = "";
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("\nWarning: if you have a retirement plan currently in place, this will override that plan" +
-                    "and you will no longer have access to it. \nTo continue making a new retirement plan, press 1.");
+                Console.WriteLine("\nWarning: If you currently have a retirement plan in place, this will override that plan" +
+                    "\nand you will no longer have access to it. " +
+                    "\nTo continue making a new retirement plan, press 1.");
                 Console.WriteLine("To return to the main retirement plan screen, press 2.");
                 option = Console.ReadLine();
             }
             return option;
         }
+
+        public static Retirement AskRetirement()
+        {
+            double age;
+            double retirementAge;
+            double finalAge;
+            double monthlyIncome;
+            double savings;
+            double ror; 
+            double retirementRor;
+            string samount;
+            bool todecimal;
+            Retirement retirement;
+
+            Console.Write("\nPlease enter your current age: ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out age);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out age);
+            }
+
+            Console.Write("\nEnter the age at which you plan to retire: ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out retirementAge);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out retirementAge);
+            }
+
+            Console.Write("\nA little morbid, but necessary, please enter the ideal age to which you expect to live: ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out finalAge);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out finalAge);
+            }
+
+            Console.Write("\nEnter the current amount of savings you have set aside for retirement: ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out savings);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out savings);
+            }
+
+            Console.Write("\nEnter the monthly income you would like to receive in retirement: ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out monthlyIncome);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out monthlyIncome);
+            }
+
+            Console.Write("\nEnter the rate of return you estimate your investments to receive between now and when you retire as a percent. " +
+                "\nExample: 7.5 for 7.5%" +
+                "\n(Tip: An estimate for a moderate level of risk might land somewhere between 6% and 8%): ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out ror);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out ror);
+            }
+
+            Console.Write("\nEnter the rate of return you estimate your investments to receive between the time you retire and your life expectancy as a percent. " +
+                "\nExample: 7.5 for 7.5%" +
+                "\n(Tip: An estimate for a low level of risk might land somewhere between 2% and 4%): ");
+            samount = Console.ReadLine();
+            todecimal = Double.TryParse(samount, out retirementRor);
+            while (!todecimal)
+            {
+                Console.Write("Please enter a valid number: ");
+                samount = Console.ReadLine();
+                todecimal = Double.TryParse(samount, out retirementRor);
+            }
+
+            retirement = new Retirement(age, retirementAge, finalAge, monthlyIncome, savings, ror, retirementRor);
+
+            Console.WriteLine("\nYour retirement plan has been successfully created! " +
+                "\nTo view the results of your retirement plan, select display retirement plan from the retirement menu.");
+
+            return retirement;
+        }
+
     }
 }

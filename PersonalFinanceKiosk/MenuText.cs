@@ -76,10 +76,10 @@ namespace PersonalFinanceKiosk
 
         public static void RetirementMenu()
         {
-            Console.WriteLine("\nCreate or edit an estimated retirement plan.");
+            Console.WriteLine("\nCreate and view an estimated retirement plan:");
             Console.WriteLine("To display your current retirement plan, press 1");
             Console.WriteLine("To create a new retirement plan, press 2");
-            Console.WriteLine("To edit an existing retirement plan, press 3");
+            //Console.WriteLine("To edit an existing retirement plan, press 3");
             Console.WriteLine("To return to the main menu, enter M");
             Console.WriteLine("To exit the application, enter E");
         }

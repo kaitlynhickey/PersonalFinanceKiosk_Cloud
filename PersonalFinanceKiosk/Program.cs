@@ -5,13 +5,14 @@ namespace PersonalFinanceKiosk
     {
         public static void Main()
         {
-            User user;
             string username;
             string option;
-            Retirement retirement;
             string instanceState = "LogInMenu";
             string password = "";
             double sum = 0;
+            bool createdRetirementPlan = false;
+            User user = null;
+            Retirement retirement = null;
             List<Income> incomes = new List<Income>();
             List<Expense> expenses = new List<Expense>();
 
@@ -205,7 +206,7 @@ namespace PersonalFinanceKiosk
                                 instanceState = "RetirementWarning";
                                 break;
                             case "3":
-                                instanceState = "EditIncome";
+                                instanceState = "CreateRetirement";
                                 break;
                             case "M" or "m":
                                 instanceState = "MainMenu";
@@ -218,7 +219,22 @@ namespace PersonalFinanceKiosk
 
 
                     case "DisplayRetirement":
-                        Console.WriteLine("Display Retirement Plan");
+                        if (createdRetirementPlan) 
+                        {
+                            Console.WriteLine($"\n\n{user.username}'s Retirement Plan:");
+                            Console.WriteLine($"{user.username} is currently {retirement.Age}. " +
+                                $"\nIf they were to start investing now, to meet their retirement goal, " +
+                                $"\n{user.username} would need to invest ${Math.Round(retirement.MonthlyPayment,0)}  a month at {retirement.RoR}% interest annually." +
+                                $"\nThis would allow them to retire at age {retirement.RetirementAge} with ${Math.Round(retirement.ValueAtRetirement,2)} still accruing interest at {retirement.RetirementRor}% annually." +
+                                $"\nMontly payments out of their retirement in the amount ${retirement.MonthlyIncome} " +
+                                $"\nfrom age {retirement.RetirementAge} to age {retirement.FinalAge} will result in them still having" +
+                                $"\n${retirement.ValueAtFinalAge} at age {retirement.FinalAge}.\n");
+                        }
+                        else 
+                        {
+                            Console.WriteLine("\nThere is not currently a retirement plan in place. " +
+                                "\nPlease create a retirement plan to be displayed.");
+                        }
                         instanceState = "RetirementMenu";
                         break;
 
@@ -236,7 +252,11 @@ namespace PersonalFinanceKiosk
                         }
                         break;
 
-                    
+                    case "CreateRetirement":
+                        retirement = MenuFunct.AskRetirement();
+                        createdRetirementPlan = true;
+                        instanceState = "RetirementMenu";
+                        break;
                 }
             }
             MenuText.ExitMenu();

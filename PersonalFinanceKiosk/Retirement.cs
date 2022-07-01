@@ -45,74 +45,80 @@ namespace PersonalFinanceKiosk
             this.retirementRor = retirementRor;
             this.monthlyRetirementRor = retirementRor / 100 / 12;
 
-            this.ValueAtRetirement = Financial.PV(this.monthlyRetirementRor, this.nperRF, this.monthlyIncome, this.valueAtFinalAge);
+            this.valueAtRetirement = Financial.PV(this.monthlyRetirementRor, this.nperRF, this.monthlyIncome, this.valueAtFinalAge);
             this.monthlyPayment = Financial.Pmt(this.monthlyRor, this.nper, this.savings, -this.valueAtRetirement);
         }
 
         public double Age
         {
             get { return this.age; }
-            set { this.age = value; }
+            //set { this.age = value; }
         }
 
         public double RetirementAge
         {
             get { return this.retirementAge; }
-            set { this.retirementAge = value; }
+            //set { this.retirementAge = value; }
+        }
+
+        public double FinalAge
+        {
+            get { return this.finalAge; }
+            //set { this.finalAge = value; }
         }
 
         public double Nper
         {
             get { return this.nper; }
-            set { this.nper = value; }
+            //set { this.nper = value; }
         }
 
         public double NperRF
         {
             get { return this.nperRF; }
-            set { this.nperRF = value; }
+            //set { this.nperRF = value; }
         }
 
         public double MonthlyIncome
         {
             get { return this.monthlyIncome; }
-            set { this.monthlyIncome = value; }
+            //set { this.monthlyIncome = value; }
         }
 
         public double MonthlyPayment
         {
             get { return this.monthlyPayment; }
-            set { this.monthlyPayment = value; }
+            //set { this.monthlyPayment = value; }
         }
 
         public double Savings
         {
             get { return this.savings; }
-            set { this.savings = value; }
+            //set { this.savings = value; }
         }
 
         public double ValueAtRetirement
         {
             get { return this.valueAtRetirement; }
-            set { this.valueAtRetirement = value; }
+            //set { this.valueAtRetirement = value; }
         }
 
         public double RoR
         {
             get { return this.ror; }
-            set { this.ror = value; }
+            //set { this.ror = value; }
         }
 
         public double RetirementRor
         {
             get { return this.retirementRor; }
-            set { this.retirementRor = value; }
+            //set { this.retirementRor = value; }
         }
 
         public double ValueAtFinalAge
         {
             get { return this.valueAtFinalAge; }
-            set { this.valueAtFinalAge = value; }
+            //set { this.valueAtFinalAge = value; }
         }
     }
 }
