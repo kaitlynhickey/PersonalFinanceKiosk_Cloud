@@ -127,7 +127,7 @@ namespace PersonalFinanceKiosk
             string item = "";
             bool exists = true;
 
-            Console.Write("\n\nEnter your expense title: ");
+            Console.Write("Enter your expense title: ");
             item = Console.ReadLine();
 
             while (expenses.Any(a => a.Item == item) | item == "")
@@ -193,7 +193,8 @@ namespace PersonalFinanceKiosk
             }
             if (income)
             {
-                Console.Write("\nWould you like your income amount entered to reflect estimated withheld taxes of 30%? To apply, press 1. Otherwise, press 2: ");
+                Console.Write("\nWould you like your income amount entered to reflect estimated withheld taxes of 30%? " +
+                    "\nTo apply, press 1. Otherwise, press 2: ");
                 option = Console.ReadLine();
                 while (!(option == "1" | option == "2"))
                 {
@@ -316,7 +317,7 @@ namespace PersonalFinanceKiosk
             double amount;
             Expense i;
 
-            Console.WriteLine("\nEnter an expense item followed by the amount.");
+            Console.WriteLine("\n\nEnter an expense item followed by the amount.");
             item = AskItem(expenses);
             amount = AskAmount(false);
 

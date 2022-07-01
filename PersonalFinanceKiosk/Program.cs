@@ -232,7 +232,7 @@ namespace PersonalFinanceKiosk
                         }
                         else 
                         {
-                            Console.WriteLine("\nThere is not currently a retirement plan in place. " +
+                            Console.WriteLine("\n\nThere is not currently a retirement plan in place. " +
                                 "\nPlease create a retirement plan to be displayed.");
                         }
                         instanceState = "RetirementMenu";
