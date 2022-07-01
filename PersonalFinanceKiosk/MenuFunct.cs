@@ -156,13 +156,11 @@ namespace PersonalFinanceKiosk
 
             if (income)
             {
-                Console.Write("Enter the amount of income" +
-                "\n(Can be entered as either a monthly or annual figure, whichever is easier): ");
+                Console.Write("Enter the amount of income as either a monthly or an annual figure: ");
             }
             else
             {
-                Console.Write("Enter the expense amount" +
-                "\n(Can be entered as either a monthly or annual figure, whichever is easier): ");
+                Console.Write("Enter the expense amount as either a monthly or an annual figure: ");
             }
             samount = Console.ReadLine();
             todecimal = Double.TryParse(samount, out amount);
