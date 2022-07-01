@@ -224,9 +224,9 @@ namespace PersonalFinanceKiosk
                             Console.WriteLine($"\n\n{user.username}'s Retirement Plan:");
                             Console.WriteLine($"{user.username} is currently {retirement.Age}. " +
                                 $"\nIf they were to start investing now, to meet their retirement goal, " +
-                                $"\n{user.username} would need to invest ${Math.Round(retirement.MonthlyPayment,0)}  a month at {retirement.RoR}% interest annually." +
+                                $"\n{user.username} would need to invest ${Math.Round(retirement.MonthlyPayment,0)} a month at {retirement.RoR}% interest annually." +
                                 $"\nThis would allow them to retire at age {retirement.RetirementAge} with ${Math.Round(retirement.ValueAtRetirement,2)} still accruing interest at {retirement.RetirementRor}% annually." +
-                                $"\nMontly payments out of their retirement in the amount ${retirement.MonthlyIncome} " +
+                                $"\nMonthly payments out of their retirement in the amount ${-retirement.MonthlyIncome} " +
                                 $"\nfrom age {retirement.RetirementAge} to age {retirement.FinalAge} will result in them still having" +
                                 $"\n${retirement.ValueAtFinalAge} at age {retirement.FinalAge}.\n");
                         }
