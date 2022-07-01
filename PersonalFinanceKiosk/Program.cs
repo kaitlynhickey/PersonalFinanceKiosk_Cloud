@@ -42,7 +42,7 @@ namespace PersonalFinanceKiosk
                                 user = new User(username, password, false);
                                 if (user.SignIn())
                                 {
-                                    Console.WriteLine($"\nWelcome {user.username}");
+                                    Console.WriteLine($"\n\nWelcome {user.username}");
                                     instanceState = "MainMenu";
                                 }
                                 else

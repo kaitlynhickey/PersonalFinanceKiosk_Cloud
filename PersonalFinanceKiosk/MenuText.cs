@@ -31,13 +31,6 @@ namespace PersonalFinanceKiosk
             Console.WriteLine("To exit the application, enter E");
         }
 
-        public static void LogInMenu2()
-        {
-            Console.WriteLine("\nPlease enter your username followed by your password.");
-            Console.WriteLine("To create a new account, please enter 5");
-            Console.WriteLine("To exit the application, enter E");
-        }
-
         public static void InvalidSignIn()
         {
             Console.WriteLine("The username or password provided was invalid. Please try again.");
@@ -45,7 +38,7 @@ namespace PersonalFinanceKiosk
 
         public static void NewUserMenu()
         {
-            Console.WriteLine("\nTo create a new user, enter your username of choice and password.");
+            Console.WriteLine("\n\nTo create a new user, enter your username of choice and password.");
         }
 
         public static void NewUserCreated()
@@ -56,7 +49,7 @@ namespace PersonalFinanceKiosk
 
         public static void MainMenu()
         {
-            Console.WriteLine("\nPlease select from one of the following kiosk options.");
+            Console.WriteLine("\n\nPlease select from one of the following kiosk options.");
             Console.WriteLine("To build a budget, press 1");
             Console.WriteLine("To build a retirement plan, press 2");
             Console.WriteLine("To exit the application, enter E");
@@ -64,7 +57,7 @@ namespace PersonalFinanceKiosk
         
         public static void BudgetMenu()
         {
-            Console.WriteLine("\nCreate a monthly budget by entering income and expenses.");
+            Console.WriteLine("\n\nCreate a monthly budget by entering income and expenses.");
             Console.WriteLine("To display your current budget, press 1");
             Console.WriteLine("To enter an income item, press 2");
             Console.WriteLine("To edit or delete an existing income item, press 3");
@@ -76,7 +69,7 @@ namespace PersonalFinanceKiosk
 
         public static void RetirementMenu()
         {
-            Console.WriteLine("\nCreate and view an estimated retirement plan:");
+            Console.WriteLine("\n\nCreate and view an estimated retirement plan:");
             Console.WriteLine("To display your current retirement plan, press 1");
             Console.WriteLine("To create a new retirement plan, press 2");
             //Console.WriteLine("To edit an existing retirement plan, press 3");
@@ -86,7 +79,7 @@ namespace PersonalFinanceKiosk
 
         public static void ExitMenu()
         {
-            Console.WriteLine("\nThank you for using the personal finance kiosk. Have a great day!");
+            Console.WriteLine("\n\nThank you for using the personal finance kiosk. Have a great day!");
         }
     }
 }

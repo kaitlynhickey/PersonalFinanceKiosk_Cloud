@@ -87,7 +87,7 @@ namespace PersonalFinanceKiosk
             double amount;
             Income i;
 
-            Console.WriteLine("\nEnter a source of income followed by the amount.");
+            Console.WriteLine("\n\nEnter a source of income followed by the amount.");
             item = AskItem(incomes);
             amount = AskAmount(true);
             
@@ -127,7 +127,7 @@ namespace PersonalFinanceKiosk
             string item = "";
             bool exists = true;
 
-            Console.Write("Enter your expense title: ");
+            Console.Write("\n\nEnter your expense title: ");
             item = Console.ReadLine();
 
             while (expenses.Any(a => a.Item == item) | item == "")
@@ -156,11 +156,13 @@ namespace PersonalFinanceKiosk
 
             if (income)
             {
-                Console.Write("Enter the amount of income: ");
+                Console.Write("Enter the amount of income" +
+                "\n(Can be entered as either a monthly or annual figure, whichever is easier): ");
             }
             else
             {
-                Console.Write("Enter the expense amount: ");
+                Console.Write("Enter the expense amount" +
+                "\n(Can be entered as either a monthly or annual figure, whichever is easier): ");
             }
             samount = Console.ReadLine();
             todecimal = Double.TryParse(samount, out amount);
