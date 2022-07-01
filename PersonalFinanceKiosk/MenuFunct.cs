@@ -444,8 +444,9 @@ namespace PersonalFinanceKiosk
             string option = "";
             while (!(option == "1" | option == "2"))
             {
-                Console.WriteLine("\nTo add another income item, press 1.");
-                Console.WriteLine("To return to the main budget screen, press 2.");
+                Console.WriteLine("\nWarning: if you have a retirement plan currently in place, this will override that plan" +
+                    "and you will no longer have access to it. \nTo continue making a new retirement plan, press 1.");
+                Console.WriteLine("To return to the main retirement plan screen, press 2.");
                 option = Console.ReadLine();
             }
             return option;

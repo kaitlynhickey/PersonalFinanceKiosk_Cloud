@@ -6,9 +6,10 @@ namespace PersonalFinanceKiosk
         public static void Main()
         {
             User user;
-            string instanceState = "LogInMenu";
             string username;
             string option;
+            Retirement retirement;
+            string instanceState = "LogInMenu";
             string password = "";
             double sum = 0;
             List<Income> incomes = new List<Income>();
